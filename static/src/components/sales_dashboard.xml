@@ -1,0 +1,153 @@
+<templates xml:space="preserve">
+	<t t-name="owl.OwlSalesDashboard" owl="1">
+		<div class="w-100 vh-100 px-3 overflow-auto bg-body">
+			<div t-if="state.isRefreshing" class="overlay-loading">
+				<div class="spinner">
+				</div>
+				<div class="font-poppins loading-text">
+					Refreshing...
+				</div>
+			</div>
+			<div class="d-flex p-3 w-100">
+				<div class="d-flex flex-column w-100">
+					<!-- Header -->
+					<div class="p-3 bg-light rounded w-100">
+						<div class="d-flex align-items-center justify-content-between w-100">
+							<div class="d-flex flex-column">
+								<h1 class="font-poppins-bolder text-dark">
+									Pet Clinic Dashboard
+								</h1>
+								<div class="d-flex flex-row w-100">
+									<t t-esc="today" />
+								</div>
+							</div>
+							<div class="font-poppins d-flex align-items-center gap-2">
+								<select class="form-select border" t-on-change="onDateFilterChange" t-att-value="state.selectedFilter">
+									<option value="today">
+										Hari Ini
+									</option>
+									<option value="yesterday">
+										Kemarin
+									</option>
+									<option value="this_week">
+										Minggu Ini
+									</option>
+									<option value="last_week">
+										Minggu Lalu
+									</option>
+									<option value="this_month">
+										Bulan Ini
+									</option>
+									<option value="last_month">
+										Bulan Lalu
+									</option>
+									<option value="this_year">
+										Tahun Ini
+									</option>
+									<option value="last_year">
+										Tahun Lalu
+									</option>
+								</select>
+								<button t-on-click="toggleAutoRefresh" type="button" class="btn border border-1 rounded-md btn-muted">
+									<img t-att-src="state.isAutoRefreshing 
+        							? '/klinik_hewan/static/src/img/close.png' 
+        							: '/klinik_hewan/static/src/img/back-in-time.png'" class="refresh-img" />
+								</button>
+							</div>
+						</div>
+					</div>
+					<!-- KPI Cards -->
+					<div class="row g-2 my-2">
+						<div class="col-12 col-sm-6 col-lg-3 d-flex">
+							<div class="card w-100 h-100 kpi-card">
+								<KpiCard img="'klinik_hewan/static/src/img/support.png'" title="'Dokter Tersibuk'" value="state.totalDoctors" model="'clinic.doctor'" domain="[]" />
+							</div>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3 d-flex">
+							<div class="card w-100 h-100 kpi-card">
+								<KpiCard img="'klinik_hewan/static/src/img/booking.png'" title="'Total Booking'" value="state.totalBookings" model="'clinic.booking'" domain="[]" />
+							</div>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3 d-flex">
+							<div class="card w-100 h-100 long-kpi">
+								<LongKpi title="'Jumlah Pendapatan'" img="'klinik_hewan/static/src/img/profit.png'" formattedValue="state.totalRevenueFormatted" model="'clinic.booking'" domain="[]" />
+							</div>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-3 d-flex">
+							<div class="card w-100 h-100 long-kpi">
+								<LongKpi title="'Laba (20%)'" img="'klinik_hewan/static/src/img/untung.png'" formattedValue="state.totalLossFormatted" model="'clinic.booking'" domain="[]" />
+							</div>
+						</div>
+					</div>
+					<!-- Graphs -->
+					<div class="d-flex flex-row gap-3 mt-2">
+						<!-- Booking Peliharaan -->
+						<div class="card w-25 p-3" t-on-click="onOpenPetListClick">
+							<div class="d-flex flex-row justify-content-between">
+								<h1 class="font-poppins-bold text-dark fs-2">
+									Booking Peliharaan
+								</h1>
+							</div>
+							<t t-if="state.petsCall.length > 0">
+								<GraphCanvas key="pet-graph-[[state.selectedFilter]]" class="rounded-sm" title="'Booking Peliharaan'" type="'pie'" height="300" t-props="{ data: state.petsCall }" />
+							</t>
+							<t t-else="">
+								<div class="text-center text-muted mt-4">
+									Belum ada booking peliharaan pada rentang waktu ini.
+								</div>
+							</t>
+						</div>
+						<!-- Booking Layanan -->
+						<div class="card w-50 p-3" t-on-click="onOpenServiceListClick">
+							<div class="d-flex flex-row justify-content-between">
+								<h1 class="font-poppins-bold text-dark fs-2">
+									Booking Layanan
+								</h1>
+							</div>
+							<t t-if="state.servicesCall.length > 0">
+								<GraphCanvas key="service-graph-[[state.selectedFilter]]" class="rounded-sm" title="'Booking Layanan'" type="'bar'" height="300" t-props="{ data: state.servicesCall }" />
+							</t>
+							<t t-else="">
+								<div class="text-center text-muted mt-4">
+									Belum ada booking layanan pada rentang waktu ini.
+								</div>
+							</t>
+						</div>
+						<!-- Status Booking -->
+						<div class="card w-25 p-3">
+							<div class="d-flex flex-row justify-content-between">
+								<h1 class="font-poppins-bold text-dark fs-2">
+									Status Booking
+								</h1>
+							</div>
+							<t t-if="state.statusCall.length > 0">
+								<GraphCanvas key="status-graph-[[state.selectedFilter]]" class="rounded-sm" title="'Status Booking'" type="'pie'" height="300" t-props="{ data: state.statusCall }" />
+							</t>
+							<t t-else="">
+								<div class="text-center text-muted mt-4">
+									Belum ada booking pada rentang waktu ini.
+								</div>
+							</t>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Booking Table -->
+			<div class="d-flex flex-column justify-content-between w-100 p-3">
+				<div class="bg-white w-100 p-3">
+					<div class="d-flex flex-row w-100 justify-content-between p-3">
+						<h1 class="text-dark font-poppins-bold">
+							Riwayat Booking
+						</h1>
+						<button class="font-poppins d-flex align-items-center justify-content-center bg-primary text-white border-0 rounded btn-table px-4" t-on-click="onTableNewClick">
+							Baru
+						</button>
+					</div>
+					<div class="p-3 w-100">
+						<BookingTable />
+					</div>
+				</div>
+			</div>
+		</div>
+	</t>
+</templates>

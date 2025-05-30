@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_clinic_booking_form_calendar" model="ir.ui.view">
+    <field name="name">clinic.booking.form.calendar</field>
+    <field name="model">clinic.booking</field>
+    <field name="arch" type="xml">
+        <form>
+            <group>
+                <field name="customer_id"/>
+                <field name="booking_date"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+
+    <record id="view_clinic_booking_calendar" model="ir.ui.view">
+    <field name="name">clinic.booking.calendar</field>
+    <field name="model">clinic.booking</field>
+    <field name="arch" type="xml">
+        <calendar string="Jadwal Booking Klinik" date_start="booking_date" color="customer_id">
+            <field name="customer_id"/>
+        </calendar>
+    </field>
+    </record>
+
+    <record id="clinic_booking_calendar" model="ir.actions.act_window">
+        <field name="name">Kalender Booking</field>
+        <field name="res_model">clinic.booking</field>
+        <field name="view_mode">calendar,form</field>
+        <field name="view_id" ref="view_clinic_booking_calendar"/>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>

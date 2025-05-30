@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <record id="clinic_doctor_view_tree" model="ir.ui.view">
+        <field name="name">Clinic Doctor List</field>
+			<field name="model">clinic.doctor</field>
+			<field name="arch" type="xml">
+				<tree string="Clinic Doctor List">
+					<field name="nama" />
+				</tree>
+			</field>
+    </record>
+
+    <record id="clinic_doctor_view_form" model="ir.ui.view">
+        <field name="name">Clinic Doctor Form</field>
+			<field name="model">clinic.doctor</field>
+			<field name="arch" type="xml">
+				<form string="Clinic Hewan List">
+                    <sheet>
+                    <group>
+					<field name="nama" />
+					<field name="booking_time" />
+                    </group>
+                    </sheet>
+				</form>
+			</field>
+    </record>
+
+
+    <record id="clinic_doctor_view" model="ir.actions.act_window">
+        <field name="name">Dokter</field>
+        <field name="res_model">clinic.doctor</field>
+        <field name="view_mode">list,tree,form,kanban</field>
+    </record>
+    
+
+</odoo>

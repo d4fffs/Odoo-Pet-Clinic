@@ -1,0 +1,254 @@
+/*Import */
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/klinik_hewan/static/src/fonts/Poppins-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.font-poppins {
+    font-family: 'Poppins', sans-serif;
+}
+
+.font-poppins-bold {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+}
+
+.font-poppins-bolder {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bolder;
+}
+
+.bg-body {
+    color: #E9E9E9;
+}
+
+.overlay-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.5rem;
+    user-select: none;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    position: relative;
+}
+
+.spinner::before,
+.spinner::after {
+    content: "";
+    position: absolute;
+    border: 8px solid transparent;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation: rotate 1s linear infinite;
+}
+
+.spinner::after {
+    border: 8px solid transparent;
+    border-bottom-color: #71639E;
+    animation-direction: reverse;
+    width: 80%;
+    height: 80%;
+    top: 10%;
+    left: 10%;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-text {
+    margin-top: 8px;
+    font-size: 20px;
+}
+
+.kpi-img-elegant {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.long-kpi-img-elegant {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.kpi-card,
+.long-kpi {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.kpi-card:hover,
+.long-kpi:hover {
+    transform: translate(5px, -5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+.refresh-img {
+    width: 24px;
+}
+
+.btn-icon {
+    width: 20px;
+}
+
+
+.btn-table {
+    transition: background-color 0.3s !important;
+}
+
+.btn-table:hover {
+    background-color: #cca9dd !important;
+}
+
+.p-12 {
+    padding: 12vh;
+}
+
+.chart-container {
+    background-color: white;
+    border: 2px solid white;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+
+.bg-glass {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.table-row-hover {
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+
+    .kpi-img-elegant,
+    .long-kpi-img-elegant {
+        width: 25px;
+        height: 25px;
+    }
+
+    .refresh-img {
+        width: 20px;
+    }
+
+    .form-select {
+        font-size: 0.9rem;
+    }
+
+    .btn-table {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+
+    .long-kpi-cont {
+        padding: 1rem;
+    }
+
+    .text-primary {
+        font-size: 1.2rem;
+    }
+
+    .spinner {
+        width: 60px;
+        height: 60px;
+        border-width: 6px;
+    }
+
+    .loading-text {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .p-3,
+    .p-12 {
+        padding: 1rem !important;
+    }
+
+    .chart-container {
+        padding: 0.5rem;
+    }
+}
+
+.status-menunggu {
+    background-color: #FDEFDF;
+    color: #8a6d3b;
+    /* opsional */
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status-terkonfirmasi {
+    background-color: #E4F8F1;
+    color: #59AD5C;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status-dibatalkan {
+    background-color: #F8D8D8;
+    color: #a94442;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+@media (max-width: 992px) {
+
+    .d-flex.flex-row>.card.w-25,
+    .d-flex.flex-row>.card.w-50 {
+        width: 100% !important;
+        /* override width 25% / 50% */
+        margin-bottom: 1rem;
+        /* beri jarak antar card vertikal */
+    }
+
+    .d-flex.flex-row {
+        flex-wrap: wrap;
+        /* supaya baris bisa membungkus */
+    }
+}

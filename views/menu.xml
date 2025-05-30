@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem
+        id="klinik_hewan_menu_root"
+        name="Klinik Hewan"
+        action="action_owl_sales"
+        sequence="0">
+
+        <menuitem
+            id="dashboard_menu"
+            name="Dashboard"
+            sequence="1"
+            action="action_owl_sales"/>
+
+        <menuitem
+            id="patients_menu"
+            name="Pasien"
+            sequence="2">
+
+            <menuitem
+                id="client_menu"
+                name="Klien"
+                action="clinic_booking_view"/>
+            <menuitem
+                id="pet_menu"
+                name="Hewan Peliharaan"
+                action="clinic_pet_view"/>
+
+        </menuitem>
+
+        <menuitem
+            id="clinic_contact_menu"
+            name="Kontak"
+            action="base.action_partner_form"
+            sequence="3"/>
+
+        <menuitem
+            id="calendar_menu"
+            name="Jadwal Temu"
+            action="clinic_booking_calendar"
+            sequence="4"/>
+
+
+        <menuitem
+        id="master_menu"
+        name="Master Data"
+        sequence="5">
+
+        <menuitem
+            id="doctor_menu"
+            name="Doctor"
+            action="clinic_doctor_view"/>
+        <menuitem
+            id="animal_menu"
+            name="Hewan"
+            action="clinic_animal_view"/>
+        <menuitem
+            id="service_menu"
+            name="Layanan"
+            action="clinic_service_view"/>
+        <menuitem
+            id="pet_category_menu"
+            name="Jenis Hewan"
+            action="clinic_pet_category_view"/>
+
+        </menuitem>
+
+    </menuitem>
+
+</odoo>
+

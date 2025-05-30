@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="clinic_animal_view_tree" model="ir.ui.view">
+        <field name="name">Clinic Animal List</field>
+			<field name="model">clinic.animal</field>
+			<field name="arch" type="xml">
+				<tree string="Clinic Animal">
+					<field name="nama_hewan" />
+				</tree>
+			</field>
+    </record>
+
+    <record id="clinic_animal_view" model="ir.actions.act_window">
+        <field name="name">Hewan</field>
+        <field name="res_model">clinic.animal</field>
+        <field name="view_mode">list,tree,form,kanban</field>
+    </record>
+
+</odoo>

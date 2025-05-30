@@ -1,0 +1,35 @@
+<odoo>
+  <record id="view_pet_form" model="ir.ui.view">
+    <field name="name">vet.pet.form</field>
+    <field name="model">vet.pet</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <field name="name"/>
+            <field name="species"/>
+            <field name="birth_date"/>
+            <field name="owner_id"/>
+            <field name="notes"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_pet_tree" model="ir.ui.view">
+    <field name="name">vet.pet.tree</field>
+    <field name="model">vet.pet</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="species"/>
+        <field name="owner_id"/>
+      </tree>
+    </field>
+  </record>
+
+  <menuitem id="vet_clinic_root" name="Vet Clinic"/>
+  <menuitem id="menu_pet" name="Pets" parent="vet_clinic_root"/>
+  <act_window id="action_pet" name="Pets" res_model="vet.pet" view_mode="tree,form" menu_id="menu_pet"/>
+</odoo>

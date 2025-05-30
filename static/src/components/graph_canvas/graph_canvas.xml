@@ -1,0 +1,10 @@
+<templates xml:space="preserve">
+  <t t-name="owl.GraphCanvas" owl="1">
+    <div class="font-poppins chart-container bg-white text-dark p-3 shadow-sm rounded border border-white cursor-pointer">
+      <canvas
+        t-ref="pie"
+        t-att-style="'width: 100%; height: ' + (props.height || 300) + 'px;'"
+      />
+    </div>
+  </t>
+</templates>

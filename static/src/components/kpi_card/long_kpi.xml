@@ -1,0 +1,17 @@
+<templates xml:space="preserve">
+  <t t-name="owl.LongKpi" owl="1">
+    <div class="long-kpi-cont w-100 h-100 d-flex flex-column justify-content-between bg-white shadow-sm p-4 rounded">
+      <div class="d-flex flex-row align-items-center justify-content-between w-100">
+        <div class="d-flex flex-column text-start">
+          <h3 class="text-dark font-poppins-bold mb-2">
+            <t t-esc="props.formattedValue" />,00
+          </h3>
+          <h5 class="text-muted font-poppins">
+            <t t-esc="props.title" />
+          </h5>
+        </div>
+        <img class="long-kpi-img-elegant ms-4" t-att-src="props.img" alt="Icon" />
+      </div>
+    </div>
+  </t>
+</templates>

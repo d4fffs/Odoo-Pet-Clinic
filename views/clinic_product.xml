@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="clinic_product_view_tree" model="ir.ui.view">
+        <field name="name">Clinic Product List</field>
+			<field name="model">product.pet</field>
+			<field name="arch" type="xml">
+				<tree string="Clinic Product List">
+					<field name="id_pet" />
+					<field name="product_id" />
+					<field name="stock" />
+                    <field name="price_unit" />
+					<field name="buy_product" />
+				</tree>
+			</field>
+    </record>
+
+    <record id="clinic_service_view_form" model="ir.ui.view">
+        <field name="name">Clinic Product Form</field>
+			<field name="model">product.pet</field>
+			<field name="arch" type="xml">
+				<form string="Clinic Product Form">
+                    <sheet>
+                    <group string="Data Product">
+					<field name="id_pet" />
+					<field name="product_id" />
+					<field name="stock" />
+					<field name="price_unit" />
+					<field name="buy_product" />
+                    </group>
+                    </sheet>
+				</form>
+			</field>
+    </record>
+
+</odoo>

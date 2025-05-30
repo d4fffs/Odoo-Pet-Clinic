@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_clinic_booking,access.clinic_booking,model_clinic_booking,,1,1,1,1
+access_clinic_doctor,access.clinic_doctor,model_clinic_doctor,base.group_user,1,1,1,1
+access_clinic_pet,access.clinic_pet,model_clinic_pet,base.group_user,1,1,1,1
+access_clinic_service,access.clinic_service,model_clinic_service,base.group_user,1,1,1,1
+access_clinic_pet_category,access.clinic_pet_category,model_clinic_pet_category,base.group_user,1,1,1,1
+access_product_pet,access.product_pet,model_product_pet,base.group_user,1,1,1,1
+access_clinic_animal,access.clinic_animal,model_clinic_animal,base.group_user,1,1,1,1
