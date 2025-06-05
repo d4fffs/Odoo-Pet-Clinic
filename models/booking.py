@@ -132,7 +132,6 @@ class Booking(models.Model):
                 else:
                     raise ValueError(f"Stok untuk {product.name} tidak mencukupi.")
 
-    # ✅ Tambahan Method untuk Chart Status Booking
     @api.model
     def get_booking_status_count(self, start_date, end_date):
         domain = [

@@ -8,12 +8,19 @@ import { BookingTable } from "./table/booking_table";
 import { loadJS } from "@web/core/assets";
 import { GraphCanvas } from "./graph_canvas/graph_canvas";
 
+
 const { Component, onWillStart, onWillUnmount, useState } = owl;
 
 export class OwlSalesDashboard extends Component {
     setup() {
         this.orm = useService("orm");
         this.action = useService("action");
+
+        this.toggleDarkMode = () => {
+            this.state.isDarkMode = !this.state.isDarkMode;
+            document.documentElement.classList.toggle("dark-mode", this.state.isDarkMode);
+        };
+
 
         this.onTableNewClick = () => {
             this.action.doAction({
@@ -61,7 +68,7 @@ export class OwlSalesDashboard extends Component {
             selectedFilter: "today",
             isAutoRefreshing: false,
             isRefreshing: false,
-
+            isDarkMode: false
         });
 
         this.getDateRange = (filter) => {

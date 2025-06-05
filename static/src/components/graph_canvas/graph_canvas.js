@@ -3,7 +3,7 @@ import { useService } from "@web/core/utils/hooks";
 const { Component, useRef, onMounted, onWillUpdateProps } = owl;
 
 export class GraphCanvas extends Component {
-    static props = ['title', 'type', 'width', 'height', 'data'];
+    static props = ['title', 'type', 'width', 'height', 'data', 'isDarkMode'];
 
     setup() {
         this.graphPie = useRef("pie");
@@ -17,6 +17,11 @@ export class GraphCanvas extends Component {
     renderChart() {
         const ctx = this.graphPie.el;
         const data = this.props.data || [];
+        const isDarkMode = this.props.isDarkMode;
+        
+        const textColor = isDarkMode ? '#000000' : '#FFFFFF';
+        const gridColorY = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(168, 85, 247, 0.1)';
+        const gridColorX = isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(168, 85, 247, 0.05)';
 
         const labels = data.map(d => d.name);
         const values = data.map(d => d.value);
@@ -73,19 +78,20 @@ export class GraphCanvas extends Component {
                             padding: 24,
                             usePointStyle: true,
                             pointStyle: 'circle',
-                            color: '#000000',
+                            color: textColor,
                             font: {
-                                weight: 'semibold'
+                                family: 'Poppins',
+                                weight: 'normal'
                             }
                         }
                     },
                     title: {
                         display: true,
                         text: this.props.title,
-                        color: '#000000',
+                        color: textColor,
                         font: {
-                            size: 24,
-                            weight: 'semibold',
+                            size: 14,
+                            weight: 'normal',
                             family: 'Poppins'
                         },
                         position: 'bottom'
@@ -95,22 +101,23 @@ export class GraphCanvas extends Component {
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            color: '#6B21A8'
+                            color: textColor
                         },
                         grid: {
-                            color: 'rgba(168, 85, 247, 0.1)'
+                            color: gridColorY
                         }
                     },
                     x: {
                         ticks: {
-                            color: '#6B21A8'
+                            color: textColor
                         },
                         grid: {
-                            color: 'rgba(168, 85, 247, 0.05)'
+                            color: gridColorX
                         }
                     }
                 } : {}
             }
+
         });
     }
 }
