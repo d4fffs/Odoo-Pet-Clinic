@@ -1,83 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    
+    <!-- FORM VIEW -->
     <record id="clinic_booking_view_form" model="ir.ui.view">
         <field name="name">Clinic Booking Form</field>
-			<field name="model">clinic.booking</field>
-			<field name="arch" type="xml">
-				
-				<form string="Clinic Booking List">
-					<header>
-					<button name="action_konfirmasi" type="object" string="Konfirmasi" invisible="status=='terkonfirmasi' or status=='dibatalkan'" />
-					<button name="action_batal" type="object" string="Batalkan" invisible="status=='menunggu'" />
-					<field name="status" widget="statusbar" statusbar_visible="menunggu,terkonfirmasi,dibatalkan" />
-					</header>
-                    <sheet>
-					<group>
-                    <group string="Informasi Customer">
-					<field name="booking_id" />
-					<field name="customer_id" />
-					<field name="no_telpon_client" />
-					<field name="alamat_client" />
-					<field name="email_client" />
+        <field name="model">clinic.booking</field>
+        <field name="arch" type="xml">
+            <form string="Clinic Booking List">
+                <header>
+                    <button name="action_konfirmasi"
+                            type="object"
+                            string="Konfirmasi"
+                            invisible="status == 'terkonfirmasi' or status == 'dibatalkan'" />
+
+                    <button name="action_batal"
+                            type="object"
+                            string="Batalkan"
+                            invisible="status == 'menunggu'" />
+
+                    <button name="%(action_clinic_booking_payment_wizard)d"
+                            string="Bayar"
+                            type="action"
+                            class="btn-primary"
+                            context="{'default_booking_id': active_id}"
+                            invisible="payment_status == 'paid'" />
+                    <button name="action_view_invoice"
+                            type="object"
+                            string="Lihat Invoice"
+                            class="btn btn-secondary"/>
+                    <field name="status"
+                           widget="statusbar"
+                           statusbar_visible="menunggu,terkonfirmasi,dibatalkan" />
+                </header>
+
+                <sheet>
+                    <group>
+                        <group string="Informasi Customer">
+                            <field name="booking_id"/>
+                            <field name="customer_id"/>
+                            <field name="no_telpon_client"/>
+                            <field name="alamat_client"/>
+                            <field name="email_client"/>
+                        </group>
+                        <group string="Informasi Booking">
+                            <field name="booking_date"/>
+                            <field name="delivery_hour" widget="datetime"/>
+                            <field name="doctor_id"/>
+                            <field name="finish_hour"/>
+                            <field name="payment_status" invisible="1"/>
+                        </group>
                     </group>
-					<group string="Informasi Booking">
-						<field name="booking_date" />
-						<field name="delivery_hour" widget="datetime"/>
-						<field name="doctor_id"/>
-						<field name="finish_hour"/>
-					</group>
-					</group>
-					<notebook>
-						<page name="Peliharaan" string="Peliharaan">
-							<field name="pet_id">
-							<tree editable="bottom">
-            <field name="nama_hewan"/>
-            <field name="pemilik"/>
-            <field name="umur"/>
-            <field name="kategori_id"/>
-            <field name="layanan_id"/>
-            <field name="waktu_rate"/>
-        </tree>
-							</field>
-						</page>
-						<page name="Produk" string="Produk">
-							<field name="product">
-							<tree editable="bottom">
-            <field name="product_id"/>
-            <field name="quantity"/>
-            <field name="price_unit"/>
-            <field name="stock"/>
-            <field name="subtotal"/>
-        	</tree>
-			</field>
-						</page>
-					</notebook>
-                    </sheet>
-				</form>
-			</field>
+
+                    <notebook>
+                        <page name="Peliharaan" string="Peliharaan">
+                            <field name="pet_id">
+                                <tree editable="bottom">
+                                    <field name="nama_hewan"/>
+                                    <field name="pemilik"/>
+                                    <field name="umur"/>
+                                    <field name="kategori_id"/>
+                                    <field name="layanan_id"/>
+                                    <field name="waktu_rate"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page name="Produk" string="Produk">
+                            <field name="product">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="stock"/>
+                                    <field name="subtotal"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
     </record>
 
-
+    <!-- TREE VIEW -->
     <record id="clinic_booking_view_tree" model="ir.ui.view">
         <field name="name">Clinic Booking List</field>
-			<field name="model">clinic.booking</field>
-			<field name="arch" type="xml">
-				<tree string="Clinic Booking List">
-					<field name="booking_id" />
-					<field name="customer_id" />
-					<field name="no_telpon_client" />
-					<field name="alamat_client" />
-					<field name="email_client" />
-					<field name="delivery_hour" />
-					<field name="finish_hour" />
-				</tree>
-			</field>
+        <field name="model">clinic.booking</field>
+        <field name="arch" type="xml">
+            <tree string="Clinic Booking List">
+                <field name="booking_id"/>
+                <field name="customer_id"/>
+                <field name="no_telpon_client"/>
+                <field name="alamat_client"/>
+                <field name="email_client"/>
+                <field name="delivery_hour"/>
+                <field name="finish_hour"/>
+            </tree>
+        </field>
     </record>
 
+    <!-- ACTION WINDOW -->
     <record id="clinic_booking_view" model="ir.actions.act_window">
         <field name="name">Booking</field>
         <field name="res_model">clinic.booking</field>
-        <field name="view_mode">list,tree,form,kanban,graph</field>
+        <field name="view_mode">tree,form</field>
     </record>
 </odoo>

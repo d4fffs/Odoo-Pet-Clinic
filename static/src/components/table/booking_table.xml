@@ -1,59 +1,139 @@
 <t t-name="owl.BookingTable" owl="1">
-	<div class="table-container w-100" style="max-height: 500px; overflow-y: auto;">
-		<table class="table bg-white w-100 table-hover align-middle">
-			<thead class="font-poppins bg-primary text-white text-center" style="position: sticky; top: 0; z-index: 1;">
-				<tr>
-					<th scope="col">
-						Nama
-					</th>
-					<th scope="col">
-						Tanggal
-					</th>
-					<th scope="col">
-						Doktor
-					</th>
-					<th scope="col">
-						Jam Antar
-					</th>
-					<th scope="col">
-						Jam Selesai
-					</th>
-					<th scope="col">
-						Status
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<t t-foreach="bookings.data" t-as="booking" t-key="booking.id">
-					<tr class="table-row-hover text-center font-poppins">
-						<td>
-							<t t-esc="booking.customer_id[1]" />
-						</td>
-						<td>
-							<t t-esc="booking.booking_date" />
-						</td>
-						<td>
-							<t t-esc="booking.doctor_id[1]" />
-						</td>
-						<td>
-							<t t-esc="booking.delivery_hour" />
-						</td>
-						<td>
-							<t t-if="booking.finish_hour">
-								<t t-esc="booking.finish_hour" />
+	<div class="d-flex flex-row gap-4 w-100" style="max-height: 600px; overflow-y: auto;">
+		<!-- Riwayat Booking -->
+		<div class="flex-fill">
+			<h3 class="text-dark font-poppins-bold mb-2">
+				Riwayat Booking
+			</h3>
+			<div class="table-container w-100" style="max-height: 550px; overflow-y: auto;">
+				<table class="table bg-white w-100 table-hover align-middle">
+					<thead class="font-poppins bg-primary text-white text-center" style="position: sticky; top: 0; z-index: 1;">
+						<tr>
+							<th>
+								Nama
+							</th>
+							<th>
+								Tanggal
+							</th>
+							<th>
+								Doktor
+							</th>
+							<th>
+								Jam Antar
+							</th>
+							<th>
+								Jam Selesai
+							</th>
+							<th>
+								Status
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<t t-foreach="bookings.data" t-as="booking" t-key="booking.id">
+							<tr class="text-center font-poppins">
+								<td>
+									<t t-esc="booking.customer_id[1]" />
+								</td>
+								<td>
+									<t t-esc="booking.booking_date" />
+								</td>
+								<td>
+									<t t-esc="booking.doctor_id[1]" />
+								</td>
+								<td>
+									<t t-esc="booking.delivery_hour" />
+								</td>
+								<td>
+									<t t-if="booking.finish_hour">
+										<t t-esc="booking.finish_hour" />
+									</t>
+									<t t-if="!booking.finish_hour">
+										-
+									</t>
+								</td>
+								<td>
+									<span t-att-class="'badge rounded-pill px-3 py-1 text-capitalize fw-semibold ' + getStatusClass(booking.status)" style="font-size: 14px;">
+										<t t-esc="statusLabels[booking.status]" />
+									</span>
+								</td>
+							</tr>
+						</t>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- Jadwal Hari Ini -->
+		<div style="width: 45%;">
+			<h3 class="text-dark font-poppins-bold mb-2">
+				Jadwal Hari ini
+			</h3>
+			<div class="table-container w-100" style="max-height: 550px; overflow-y: auto;">
+				<table class="table bg-white w-100 table-hover align-middle">
+					<thead class="font-poppins  bg-primary text-white text-center" style="position: sticky; top: 0; z-index: 1;">
+						<tr>
+							<th>
+								Nama
+							</th>
+							<th>
+								Tanggal
+							</th>
+							<th>
+								Doktor
+							</th>
+							<th>
+								Jam Antar
+							</th>
+							<th>
+								Jam Selesai
+							</th>
+							<th>
+								Status
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<t t-if="todayBookings.data.length > 0">
+							<t t-foreach="todayBookings.data" t-as="booking" t-key="booking.id">
+								<tr class="text-center font-poppins">
+									<td>
+										<t t-esc="booking.customer_id[1]" />
+									</td>
+									<td>
+										<t t-esc="booking.booking_date" />
+									</td>
+									<td>
+										<t t-esc="booking.doctor_id[1]" />
+									</td>
+									<td>
+										<t t-esc="booking.delivery_hour" />
+									</td>
+									<td>
+										<t t-if="booking.finish_hour">
+											<t t-esc="booking.finish_hour" />
+										</t>
+										<t t-if="!booking.finish_hour">
+											-
+										</t>
+									</td>
+									<td>
+										<span t-att-class="'badge rounded-pill px-3 py-1 text-capitalize fw-semibold ' + getStatusClass(booking.status)" style="font-size: 14px;">
+											<t t-esc="statusLabels[booking.status]" />
+										</span>
+									</td>
+								</tr>
 							</t>
-							<t t-if="!booking.finish_hour">
-								-
-							</t>
-						</td>
-						<td>
-							<span t-att-class="'badge rounded-pill px-3 py-1 text-capitalize fw-semibold ' + getStatusClass(booking.status)" style="font-size: 14px;">
-								<t t-esc="statusLabels[booking.status]" />
-							</span>
-						</td>
-					</tr>
-				</t>
-			</tbody>
-		</table>
+						</t>
+						<t t-if="todayBookings.data.length === 0">
+							<tr>
+								<td class="text-center" colspan="6">
+									Tidak ada jadwal hari ini
+								</td>
+							</tr>
+						</t>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 </t>

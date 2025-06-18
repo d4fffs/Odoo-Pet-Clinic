@@ -33,6 +33,7 @@ export class BookingTable extends Component {
         };
 
         this.bookings = useState({ data: [] });
+        this.todayBookings = useState({ data: [] });
 
         onWillStart(async () => {
             const records = await this.orm.searchRead(
@@ -43,8 +44,10 @@ export class BookingTable extends Component {
 
             
             records.sort((a, b) => new Date(b.booking_date) - new Date(a.booking_date));
+            const today = new Date().toISOString().split("T")[0];
 
             this.bookings.data = records;
+            this.todayBookings.data = records.filter(b => b.booking_date === today);
         });
     }
 }

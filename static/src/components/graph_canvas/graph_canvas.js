@@ -15,11 +15,15 @@ export class GraphCanvas extends Component {
     }
 
     renderChart() {
+    // Tunggu satu frame supaya canvas tersedia (penting saat switch dark mode cepat)
+    requestAnimationFrame(() => {
         const ctx = this.graphPie.el;
+        if (!ctx) return; // stop jika canvas belum siap
+
         const data = this.props.data || [];
         const isDarkMode = this.props.isDarkMode;
-        
-        const textColor = isDarkMode ? '#000000' : '#FFFFFF';
+
+        const textColor = isDarkMode ? '#FFFFFF' : '#000000';
         const gridColorY = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(168, 85, 247, 0.1)';
         const gridColorX = isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(168, 85, 247, 0.05)';
 
@@ -30,38 +34,28 @@ export class GraphCanvas extends Component {
             this.chartInstance.destroy();
         }
 
-        // Set canvas height from props
         if (this.props.height) {
             ctx.height = this.props.height;
         }
-        const pastelShades = [
-            '#B332CD', // Ungu terang
-            '#CD329A', // Magenta
-            '#6532CD', // Ungu tua
 
-            // Warna kontras
-            '#32CD99', // Hijau mint terang
-            '#FFCC00', // Kuning terang
-            '#00B4D8', // Biru kehijauan terang
-        ];
+        const lightModeColors = ['#B332CD', '#CD329A', '#6532CD', '#32CD99', '#FFCC00', '#00B4D8'];
+        const darkModeColors  = ['#FFD700', '#FF69B4', '#00CED1', '#7CFC00', '#FF8C00', '#1E90FF'];
 
-
-        const backgroundColors = values.map((_, i) => pastelShades[i % pastelShades.length]);
-        const borderColors = backgroundColors.map(color => color.replace('0.7', '1'));
+        const backgroundColors = values.map((_, i) =>
+            isDarkMode ? darkModeColors[i % darkModeColors.length] : lightModeColors[i % lightModeColors.length]
+        );
 
         this.chartInstance = new Chart(ctx, {
             type: this.props.type,
             data: {
                 labels: labels,
-                datasets: [
-                    {
-                        label: 'Total Hewan',
-                        data: values,
-                        backgroundColor: backgroundColors,
-                        borderColor: borderColors,
-                        borderWidth: 1.5
-                    }
-                ]
+                datasets: [{
+                    label: 'Total Hewan',
+                    data: values,
+                    backgroundColor: backgroundColors,
+                    borderColor: backgroundColors,
+                    borderWidth: 1.5
+                }]
             },
             options: {
                 responsive: true,
@@ -100,26 +94,19 @@ export class GraphCanvas extends Component {
                 scales: this.props.type === 'bar' ? {
                     y: {
                         beginAtZero: true,
-                        ticks: {
-                            color: textColor
-                        },
-                        grid: {
-                            color: gridColorY
-                        }
+                        ticks: { color: textColor },
+                        grid: { color: gridColorY }
                     },
                     x: {
-                        ticks: {
-                            color: textColor
-                        },
-                        grid: {
-                            color: gridColorX
-                        }
+                        ticks: { color: textColor },
+                        grid: { color: gridColorX }
                     }
                 } : {}
             }
-
         });
-    }
+    });
+}
+
 }
 
 GraphCanvas.template = "owl.GraphCanvas";

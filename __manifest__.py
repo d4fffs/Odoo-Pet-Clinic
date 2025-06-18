@@ -1,10 +1,10 @@
 {
     "name": "Klinik Hewan",
     "version": "1.0",
-    "author": "Kenzo",
+    "author": "Daffa",
     "category": "clinic",
     "summary": "Mengatur sistem klinik hewan",
-    "depends" : ["base", "contacts", "calendar", "stock", "sale", "board"],
+    "depends": ["base", "contacts", "calendar", "stock", "sale", "board", "account"],
     "data" : [
         "security/ir.model.access.csv",
         "data/ir.sequence.xml",
@@ -17,6 +17,7 @@
         "views/clinic_calendar.xml",
         "views/clinic_animal.xml",
         "views/clinic_product.xml",
+        'views/payment_wizard_view.xml',
         "views/menu.xml",
     ],
     "assets" : {

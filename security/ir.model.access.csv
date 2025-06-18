@@ -6,3 +6,4 @@ access_clinic_service,access.clinic_service,model_clinic_service,base.group_user
 access_clinic_pet_category,access.clinic_pet_category,model_clinic_pet_category,base.group_user,1,1,1,1
 access_product_pet,access.product_pet,model_product_pet,base.group_user,1,1,1,1
 access_clinic_animal,access.clinic_animal,model_clinic_animal,base.group_user,1,1,1,1
+access_clinic_booking_payment_wizard,access.clinic.booking.payment.wizard,model_clinic_booking_payment_wizard,,1,1,1,1

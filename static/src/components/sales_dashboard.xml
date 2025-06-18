@@ -141,9 +141,6 @@
 			<div class="d-flex flex-row justify-content-between w-100 p-3">
 				<div class="bg-white w-100 p-3">
 					<div class="d-flex align-items-center justify-content-between w-100 flex-wrap flex-md-nowrap p-3">
-						<h1 class="text-dark font-poppins-bold mb-0">
-							Riwayat Booking
-						</h1>
 						<button class="ms-auto font-poppins d-flex align-items-center justify-content-center bg-primary text-white border-0 rounded btn-table px-4 py-2" t-on-click="onTableNewClick">
 							Baru
 						</button>
