@@ -20,7 +20,14 @@ class ClinicBookingPaymentWizard(models.TransientModel):
         related="booking_id.finish_hour", string="Jam Selesai", readonly=True
     )
 
-    pet_ids = fields.One2many(related="booking_id.pet_id", string="Peliharaan")
+    pet_ids = fields.One2many(
+        comodel_name="clinic.pet",
+        inverse_name="booking_id",
+        string="Peliharaan",
+        compute="_compute_pet_ids",
+        store=False,
+    )
+
     product_ids = fields.One2many(related="booking_id.product", string="Produk")
 
     total_booking_amount = fields.Float(
@@ -70,58 +77,75 @@ class ClinicBookingPaymentWizard(models.TransientModel):
             )
 
         # 1. Buat Invoice
-        invoice = self.env["account.move"].create({
-            "move_type": "out_invoice",
-            "partner_id": self.booking_id.customer_id.id,
-            "invoice_date": fields.Date.context_today(self),
-            "invoice_origin": self.booking_id.booking_id,
-            "invoice_line_ids": [(0, 0, {
-                "name": f"Pembayaran Booking: {self.booking_id.booking_id}",
-                "quantity": 1.0,
-                "price_unit": self.booking_id.total_revenue,
-                "account_id": self.env["account.account"]
-                    .search([("account_type", "=", "income")], limit=1)
-                    .id,
-            })],
-        })
+        invoice = self.env["account.move"].create(
+            {
+                "move_type": "out_invoice",
+                "partner_id": self.booking_id.customer_id.id,
+                "invoice_date": fields.Date.context_today(self),
+                "invoice_origin": self.booking_id.booking_id,
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": f"Pembayaran Booking: {self.booking_id.booking_id}",
+                            "quantity": 1.0,
+                            "price_unit": self.booking_id.total_revenue,
+                            "account_id": self.env["account.account"]
+                            .search([("account_type", "=", "income")], limit=1)
+                            .id,
+                        },
+                    )
+                ],
+            }
+        )
 
         # 2. Post invoice
         invoice.action_post()
 
         # 3. Register payment otomatis
-        journal = self.env["account.journal"].search([
-            ("type", "=", "cash" if self.payment_method == "cash" else "bank")
-        ], limit=1)
+        journal = self.env["account.journal"].search(
+            [("type", "=", "cash" if self.payment_method == "cash" else "bank")],
+            limit=1,
+        )
 
         if not journal:
             raise UserError("Journal untuk metode pembayaran tidak ditemukan.")
 
-        payment_method_line = self.env["account.payment.method.line"].search([
-            ("journal_id", "=", journal.id),
-            ("payment_method_id.name", "=", "Manual")
-        ], limit=1)
+        payment_method_line = self.env["account.payment.method.line"].search(
+            [
+                ("journal_id", "=", journal.id),
+                ("payment_method_id.name", "=", "Manual"),
+            ],
+            limit=1,
+        )
 
         if not payment_method_line:
             raise UserError("Metode pembayaran tidak ditemukan di jurnal tersebut.")
 
-        payment_register = self.env["account.payment.register"].with_context(
-            active_model="account.move",
-            active_ids=invoice.ids
-        ).create({
-            "amount": invoice.amount_total,
-            "payment_date": fields.Date.context_today(self),
-            "journal_id": journal.id,
-            "payment_method_line_id": payment_method_line.id,
-        })
+        payment_register = (
+            self.env["account.payment.register"]
+            .with_context(active_model="account.move", active_ids=invoice.ids)
+            .create(
+                {
+                    "amount": invoice.amount_total,
+                    "payment_date": fields.Date.context_today(self),
+                    "journal_id": journal.id,
+                    "payment_method_line_id": payment_method_line.id,
+                }
+            )
+        )
 
         payment_register.action_create_payments()
 
         # 4. Update status booking + tautkan invoice
-        self.booking_id.write({
-            "payment_status": "paid",
-            "payment_method": self.payment_method,
-            "invoice_id": invoice.id,
-        })
+        self.booking_id.write(
+            {
+                "payment_status": "paid",
+                "payment_method": self.payment_method,
+                "invoice_id": invoice.id,
+            }
+        )
 
         # 5. Hitung kembaliany
         kembalian = self.amount - total_tagihan
@@ -141,3 +165,8 @@ class ClinicBookingPaymentWizard(models.TransientModel):
                 "sticky": False,
             },
         }
+
+    @api.depends("booking_id")
+    def _compute_pet_ids(self):
+        for wizard in self:
+            wizard.pet_ids = wizard.booking_id.pet_ids

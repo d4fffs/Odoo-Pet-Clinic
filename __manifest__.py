@@ -8,6 +8,7 @@
     "data" : [
         "security/ir.model.access.csv",
         "data/ir.sequence.xml",
+        "views/payment_wizard_view.xml",
         "views/clinic_booking.xml",
         "views/clinic_doctor.xml",
         "views/clinic_dashboard.xml",
@@ -17,8 +18,7 @@
         "views/clinic_calendar.xml",
         "views/clinic_animal.xml",
         "views/clinic_product.xml",
-        'views/payment_wizard_view.xml',
-        "views/menu.xml",
+        "views/menu.xml"
     ],
     "assets" : {
     "web.assets_backend" : [
